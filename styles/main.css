@@ -1,0 +1,187 @@
+/* --- RESET Y GLOBALES --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: #222;
+    color: #f4f4f4;
+    font-family: Arial, sans-serif;
+    overflow: hidden;
+    /* ¡CAMBIO! Ocultamos el cursor por defecto */
+    cursor: none;
+}
+
+/* Ocultamos el cursor también en los enlaces */
+a, .dot-nav .dot {
+    cursor: none;
+}
+
+/* --- PRELOADER (Sin cambios) --- */
+#loader {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background-color: #222; display: flex; justify-content: center;
+    align-items: center; z-index: 200; transition: opacity 0.5s ease;
+}
+.spinner {
+    width: 50px; height: 50px; border: 5px solid rgba(255, 255, 255, 0.3);
+    border-top-color: #B8C8A9; border-radius: 50%; animation: spin 1s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* --- ESTADOS DE CARGA (Sin cambios) --- */
+#main-content, .dot-nav {
+    opacity: 0; visibility: hidden; transition: opacity 0.5s ease;
+}
+body.loaded #loader {
+    opacity: 0; visibility: hidden; pointer-events: none;
+}
+body.loaded #main-content, 
+body.loaded .dot-nav {
+    opacity: 1; visibility: visible;
+}
+
+
+/* --- CONTENEDOR PRINCIPAL (Sin cambios) --- */
+#main-content {
+    height: 100vh;
+    overflow-y: scroll;
+    scroll-snap-type: y mandatory;
+    scrollbar-width: none;
+}
+#main-content::-webkit-scrollbar {
+    display: none;
+}
+
+
+/* --- SECCIONES INDIVIDUALES (Sin cambios) --- */
+.portfolio-section {
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    scroll-snap-align: start;
+    position: relative;
+    overflow-y: auto;
+    scrollbar-width: none;
+    content-visibility: auto;
+    contain-intrinsic-size: 100vw 100vh;
+}
+.portfolio-section::-webkit-scrollbar {
+    display: none;
+}
+
+.portfolio-section img {
+    max-width: 90%;
+    width: auto; 
+    height: auto;
+    max-height: 100vh;
+    object-fit: contain;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out, transform 0.4s ease; /* ¡CAMBIO! Añadimos transición de transform */
+}
+
+/* ¡NUEVO! Efecto hover sutil en las imágenes */
+.portfolio-section img:hover {
+    transform: scale(1.01); /* Zoom muy ligero */
+}
+
+
+#section-1, #section-3, #section-4, #section-5 {
+    align-items: flex-start;
+}
+#section-1 img, #section-3 img, #section-4 img, #section-5 img {
+    max-height: none;
+    object-fit: initial;
+    width: 90%; 
+    height: auto;
+}
+
+.portfolio-section.visible img {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+
+/* --- NAVEGACIÓN DE PUNTOS (Sin cambios) --- */
+.dot-nav {
+    position: fixed; top: 50%; right: 25px; transform: translateY(-50%);
+    z-index: 100; display: flex; flex-direction: column; gap: 12px;
+}
+.dot-nav .dot {
+    width: 12px; height: 12px;
+    background-color: rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    transition: background-color 0.3s ease;
+}
+.dot-nav .dot.active {
+    background-color: #B8C8A9;
+}
+
+/* --- FLECHA DE SCROLL (Sin cambios) --- */
+.scroll-down-arrow {
+    position: absolute; bottom: 30px; left: 50%;
+    transform: translateX(-50%); text-decoration: none;
+    animation: bounce 2s infinite;
+}
+.scroll-down-arrow span {
+    display: block; width: 20px; height: 20px;
+    border-left: 2px solid #B8C8A9; border-bottom: 2px solid #B8C8A9;
+    transform: rotate(-45deg);
+}
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% { transform: translate(-50%, 0); }
+    40% { transform: translate(-50%, -15px); }
+    60% { transform: translate(-50%, -7px); }
+}
+
+/* --- VIÑETA (Sin cambios) --- */
+.vignette-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: linear-gradient( 180deg, #222 0%, rgba(34,34,34,0) 15%, rgba(34,34,34,0) 85%, #222 100% );
+    pointer-events: none; 
+    z-index: 10; 
+}
+
+
+/* --- ¡NUEVO! ESTILOS DEL CURSOR PERSONALIZADO --- */
+.cursor-dot,
+.cursor-outline {
+    position: fixed;
+    top: 0;
+    left: 0;
+    transform: translate(-50%, -50%); /* Centra el div en el cursor */
+    border-radius: 50%;
+    pointer-events: none; /* Permite hacer clic "a través" de él */
+    z-index: 9999;
+    opacity: 0; /* Oculto hasta que el JS lo mueva */
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.cursor-dot {
+    width: 8px;
+    height: 8px;
+    background-color: #B8C8A9; /* Tu color de acento verde */
+}
+
+.cursor-outline {
+    width: 40px;
+    height: 40px;
+    border: 2px solid rgba(184, 200, 169, 0.5); /* Borde verde semitransparente */
+    /* La magia del "retraso" se hace con JS o una transición más larga */
+    transition: transform 0.1s ease-out; 
+}
+
+/* Estado de "hover" del cursor */
+.cursor-outline.hover {
+    transform: scale(2.5) translate(-20%, -20%); /* Ajusta el translate para mantener el centro */
+    opacity: 0.5;
+}
