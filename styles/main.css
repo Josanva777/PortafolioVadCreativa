@@ -9,179 +9,162 @@ html {
     scroll-behavior: smooth;
 }
 
+/* --- FONDO NEGRO PURO --- */
 body {
-    background-color: #222;
-    color: #f4f4f4;
-    font-family: Arial, sans-serif;
-    overflow: hidden;
-    /* ¡CAMBIO! Ocultamos el cursor por defecto */
-    cursor: none;
+    background: #000000; /* Fondo totalmente negro para el espacio */
+    
+    color: #f0f0f0; 
+    font-family: 'Inter', Arial, sans-serif;
+    overflow-y: auto;
+    position: relative; 
 }
 
-/* Ocultamos el cursor también en los enlaces */
-a, .dot-nav .dot {
-    cursor: none;
-}
-
-/* --- PRELOADER (Sin cambios) --- */
+/* --- PRELOADER --- */
 #loader {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background-color: #222; display: flex; justify-content: center;
-    align-items: center; z-index: 200; transition: opacity 0.5s ease;
+    background-color: #000000; 
+    display: flex; justify-content: center;
+    align-items: center; z-index: 200; 
+    transition: opacity 0.5s ease, visibility 0s 0.5s;
 }
 .spinner {
-    width: 50px; height: 50px; border: 5px solid rgba(255, 255, 255, 0.3);
-    border-top-color: #B8C8A9; border-radius: 50%; animation: spin 1s linear infinite;
+    width: 50px; height: 50px; border: 5px solid rgba(255, 255, 255, 0.2); 
+    border-top-color: #B8C8A9; 
+    border-radius: 50%; animation: spin 1s linear infinite;
 }
 @keyframes spin { to { transform: rotate(360deg); } }
 
-/* --- ESTADOS DE CARGA (Sin cambios) --- */
-#main-content, .dot-nav {
-    opacity: 0; visibility: hidden; transition: opacity 0.5s ease;
+/* --- ESTADOS DE CARGA --- */
+#portfolio-strip, .particles-container {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 1s ease 0.2s, transform 0.8s ease 0.2s;
 }
 body.loaded #loader {
-    opacity: 0; visibility: hidden; pointer-events: none;
-}
-body.loaded #main-content, 
-body.loaded .dot-nav {
-    opacity: 1; visibility: visible;
-}
-
-
-/* --- CONTENEDOR PRINCIPAL (Sin cambios) --- */
-#main-content {
-    height: 100vh;
-    overflow-y: scroll;
-    scroll-snap-type: y mandatory;
-    scrollbar-width: none;
-}
-#main-content::-webkit-scrollbar {
-    display: none;
-}
-
-
-/* --- SECCIONES INDIVIDUALES (Sin cambios) --- */
-.portfolio-section {
-    height: 100vh;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    scroll-snap-align: start;
-    position: relative;
-    overflow-y: auto;
-    scrollbar-width: none;
-    content-visibility: auto;
-    contain-intrinsic-size: 100vw 100vh;
-}
-.portfolio-section::-webkit-scrollbar {
-    display: none;
-}
-
-.portfolio-section img {
-    max-width: 90%;
-    width: auto; 
-    height: auto;
-    max-height: 100vh;
-    object-fit: contain;
     opacity: 0;
-    transform: translateY(30px);
-    transition: opacity 0.8s ease-out, transform 0.8s ease-out, transform 0.4s ease; /* ¡CAMBIO! Añadimos transición de transform */
+    visibility: hidden;
+    pointer-events: none;
 }
-
-/* ¡NUEVO! Efecto hover sutil en las imágenes */
-.portfolio-section img:hover {
-    transform: scale(1.01); /* Zoom muy ligero */
-}
-
-
-#section-1, #section-3, #section-4, #section-5 {
-    align-items: flex-start;
-}
-#section-1 img, #section-3 img, #section-4 img, #section-5 img {
-    max-height: none;
-    object-fit: initial;
-    width: 90%; 
-    height: auto;
-}
-
-.portfolio-section.visible img {
+body.loaded #portfolio-strip {
     opacity: 1;
     transform: translateY(0);
 }
-
-
-/* --- NAVEGACIÓN DE PUNTOS (Sin cambios) --- */
-.dot-nav {
-    position: fixed; top: 50%; right: 25px; transform: translateY(-50%);
-    z-index: 100; display: flex; flex-direction: column; gap: 12px;
-}
-.dot-nav .dot {
-    width: 12px; height: 12px;
-    background-color: rgba(255, 255, 255, 0.3);
-    border-radius: 50%;
-    transition: background-color 0.3s ease;
-}
-.dot-nav .dot.active {
-    background-color: #B8C8A9;
+body.loaded .particles-container {
+    opacity: 1;
+    transition: opacity 1.5s ease 0.8s; 
 }
 
-/* --- FLECHA DE SCROLL (Sin cambios) --- */
-.scroll-down-arrow {
-    position: absolute; bottom: 30px; left: 50%;
-    transform: translateX(-50%); text-decoration: none;
-    animation: bounce 2s infinite;
-}
-.scroll-down-arrow span {
-    display: block; width: 20px; height: 20px;
-    border-left: 2px solid #B8C8A9; border-bottom: 2px solid #B8C8A9;
-    transform: rotate(-45deg);
-}
-@keyframes bounce {
-    0%, 20%, 50%, 80%, 100% { transform: translate(-50%, 0); }
-    40% { transform: translate(-50%, -15px); }
-    60% { transform: translate(-50%, -7px); }
-}
 
-/* --- VIÑETA (Sin cambios) --- */
-.vignette-overlay {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: linear-gradient( 180deg, #222 0%, rgba(34,34,34,0) 15%, rgba(34,34,34,0) 85%, #222 100% );
-    pointer-events: none; 
+/* --- CONTENEDOR DE LA "TIRILLA" --- */
+#portfolio-strip {
+    width: 95%;
+    max-width: 1000px; 
+    margin: 40px auto; 
+    border-radius: 12px;
+    overflow: hidden; 
+    /* Sombra blanca (glow) */
+    box-shadow: 
+        0 0 30px rgba(255, 255, 255, 0.2), 
+        0 0 60px rgba(255, 255, 255, 0.15),
+        0 0 100px rgba(255, 255, 255, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    position: relative; 
     z-index: 10; 
+    /* Fondo de la tirilla eliminado para ver la galaxia detrás */
+    /* background-color: #ffffff; */
+}
+
+/* --- IMÁGENES DE LA TIRILLA --- */
+#portfolio-strip img {
+    width: 100%;
+    height: auto;
+    display: block;
+    margin-bottom: -1px; 
 }
 
 
-/* --- ¡NUEVO! ESTILOS DEL CURSOR PERSONALIZADO --- */
-.cursor-dot,
-.cursor-outline {
+/* --- SISTEMA DE PARTÍCULAS (GALAXIA ESTÁTICA) --- */
+.particles-container {
     position: fixed;
-    top: 0;
-    left: 0;
-    transform: translate(-50%, -50%); /* Centra el div en el cursor */
+    /* Contenedor más grande que el viewport (120%) */
+    width: 120vw;
+    height: 120vh;
+    top: -10vh; /* Centrado */
+    left: -10vw;
+    
+    pointer-events: none;
+    z-index: 1; 
+    overflow: hidden;
+    /* Fondo sutil de nebulosa (opcional) */
+    background: radial-gradient(circle at top left, rgba(60, 0, 100, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at bottom right, rgba(0, 50, 80, 0.05) 0%, transparent 50%);
+}
+
+/* Partículas Estáticas (las "estrellas") */
+.particle {
+    position: absolute;
+    background: radial-gradient(circle, #ffffff 0%, rgba(255,255,255,0) 70%);
     border-radius: 50%;
-    pointer-events: none; /* Permite hacer clic "a través" de él */
-    z-index: 9999;
-    opacity: 0; /* Oculto hasta que el JS lo mueva */
-    transition: opacity 0.3s ease, transform 0.3s ease;
+    pointer-events: none;
+    animation: spaceTwinkle 20s linear infinite; 
+    will-change: transform, opacity;
 }
 
-.cursor-dot {
-    width: 8px;
-    height: 8px;
-    background-color: #B8C8A9; /* Tu color de acento verde */
+/* Animación de "Galaxia" (titileo y deriva para las estáticas) */
+@keyframes spaceTwinkle {
+    0% {
+        transform: translate(0, 0);
+        opacity: 0.2; 
+    }
+    20% {
+        transform: translate(2px, -2px);
+        opacity: 1; 
+    }
+    40% {
+        transform: translate(-2px, 2px);
+        opacity: 0.4;
+    }
+    60% {
+        transform: translate(1px, 3px);
+        opacity: 0.8;
+    }
+    80% {
+        transform: translate(-3px, -1px);
+        opacity: 0.3;
+    }
+    100% {
+        transform: translate(0, 0); 
+        opacity: 0.2; 
+    }
 }
 
-.cursor-outline {
-    width: 40px;
-    height: 40px;
-    border: 2px solid rgba(184, 200, 169, 0.5); /* Borde verde semitransparente */
-    /* La magia del "retraso" se hace con JS o una transición más larga */
-    transition: transform 0.1s ease-out; 
+/* --- ¡NUEVO! Partículas Dinámicas (las que se mueven y son coloridas) --- */
+.dynamic-particle {
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+    /* Usaremos esta animación para que suban, como el efecto original */
+    animation: floatDynamicParticle 18s linear infinite; /* Duración variada */
+    will-change: transform, opacity;
+    /* La opacidad y el color se definirán en JS */
 }
 
-/* Estado de "hover" del cursor */
-.cursor-outline.hover {
-    transform: scale(2.5) translate(-20%, -20%); /* Ajusta el translate para mantener el centro */
-    opacity: 0.5;
+/* Animación para las partículas dinámicas (similar a la original de subida) */
+@keyframes floatDynamicParticle {
+    from {
+        transform: translateY(100vh) rotate(0deg);
+        opacity: 0;
+    }
+    5% {
+        opacity: 0.3; /* Menor opacidad para un efecto de "gas" */
+    }
+    95% {
+        opacity: 0.3;
+    }
+    to {
+        transform: translateY(-100px) rotate(180deg);
+        opacity: 0;
+    }
 }
