@@ -72,7 +72,6 @@ body.loaded .particles-container {
     align-items: center; 
     position: relative; 
     z-index: 10; 
-    /* Fondo de la tirilla eliminado para ver la galaxia detrás */
     /* background-color: #ffffff; */
 }
 
@@ -82,22 +81,33 @@ body.loaded .particles-container {
     height: auto;
     display: block;
     margin-bottom: -1px; 
+    position: relative; 
+}
+
+/* --- SUPERPOSICIÓN PORTADA A LOGOFOLIO --- */
+
+/* Imagen 1 (Portada) - Se asegura que esté por encima */
+#portfolio-strip img:nth-child(1) {
+    z-index: 2; 
+}
+
+/* Imagen 2 (Logo Folio GIF) - Valor para PC */
+#portfolio-strip img:nth-child(2) {
+    z-index: 1; 
+    margin-top: -160px; /* <-- VALOR PARA PC */
 }
 
 
 /* --- SISTEMA DE PARTÍCULAS (GALAXIA ESTÁTICA) --- */
 .particles-container {
     position: fixed;
-    /* Contenedor más grande que el viewport (120%) */
     width: 120vw;
     height: 120vh;
-    top: -10vh; /* Centrado */
+    top: -10vh; 
     left: -10vw;
-    
     pointer-events: none;
     z-index: 1; 
     overflow: hidden;
-    /* Fondo sutil de nebulosa (opcional) */
     background: radial-gradient(circle at top left, rgba(60, 0, 100, 0.05) 0%, transparent 50%),
                 radial-gradient(circle at bottom right, rgba(0, 50, 80, 0.05) 0%, transparent 50%);
 }
@@ -112,59 +122,38 @@ body.loaded .particles-container {
     will-change: transform, opacity;
 }
 
-/* Animación de "Galaxia" (titileo y deriva para las estáticas) */
 @keyframes spaceTwinkle {
-    0% {
-        transform: translate(0, 0);
-        opacity: 0.2; 
-    }
-    20% {
-        transform: translate(2px, -2px);
-        opacity: 1; 
-    }
-    40% {
-        transform: translate(-2px, 2px);
-        opacity: 0.4;
-    }
-    60% {
-        transform: translate(1px, 3px);
-        opacity: 0.8;
-    }
-    80% {
-        transform: translate(-3px, -1px);
-        opacity: 0.3;
-    }
-    100% {
-        transform: translate(0, 0); 
-        opacity: 0.2; 
-    }
+    0% { transform: translate(0, 0); opacity: 0.2; }
+    20% { transform: translate(2px, -2px); opacity: 1; }
+    40% { transform: translate(-2px, 2px); opacity: 0.4; }
+    60% { transform: translate(1px, 3px); opacity: 0.8; }
+    80% { transform: translate(-3px, -1px); opacity: 0.3; }
+    100% { transform: translate(0, 0); opacity: 0.2; }
 }
 
-/* --- ¡NUEVO! Partículas Dinámicas (las que se mueven y son coloridas) --- */
+/* --- Partículas Dinámicas --- */
 .dynamic-particle {
     position: absolute;
     border-radius: 50%;
     pointer-events: none;
-    /* Usaremos esta animación para que suban, como el efecto original */
-    animation: floatDynamicParticle 18s linear infinite; /* Duración variada */
+    animation: floatDynamicParticle 18s linear infinite; 
     will-change: transform, opacity;
-    /* La opacidad y el color se definirán en JS */
 }
 
-/* Animación para las partículas dinámicas (similar a la original de subida) */
 @keyframes floatDynamicParticle {
-    from {
-        transform: translateY(100vh) rotate(0deg);
-        opacity: 0;
+    from { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+    5% { opacity: 0.3; }
+    95% { opacity: 0.3; }
+    to { transform: translateY(-100px) rotate(180deg); opacity: 0; }
+}
+
+
+/* --- AJUSTES PARA DISPOSITIVOS MÓVILES --- */
+@media (max-width: 600px) {
+
+    /* Hacemos que la superposición sea menor en celulares */
+    #portfolio-strip img:nth-child(2) {
+        margin-top: -60px; /* <-- VALOR PARA CELULAR */
     }
-    5% {
-        opacity: 0.3; /* Menor opacidad para un efecto de "gas" */
-    }
-    95% {
-        opacity: 0.3;
-    }
-    to {
-        transform: translateY(-100px) rotate(180deg);
-        opacity: 0;
-    }
+
 }
