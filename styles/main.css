@@ -94,7 +94,7 @@ body.loaded .particles-container {
 /* Imagen 2 (Logo Folio GIF) - Valor para PC */
 #portfolio-strip img:nth-child(2) {
     z-index: 1; 
-    margin-top: -160px; /* <-- VALOR PARA PC */
+    margin-top: -180px; /* <-- VALOR PARA PC */
 }
 
 
